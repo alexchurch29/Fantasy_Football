@@ -29,15 +29,17 @@ def main():
 
     state = DraftState(rosters, turns, freeagents)
     iterations = 1000
-    if sys.argv[1] == 'sim':
+    if len(sys.argv) > 1 and sys.argv[1] == 'sim':
         while state.GetMoves() != []:
+            if (pick + 11) % 12 == 0:
+                print("Round " + str(int((pick+11)/12)))
             if state.turns[0] == 2:
                 move = UCT(state, iterations)
                 for i in range(len(move)):
                     state.GetPlayers(move[i])
                 print()
                 while True:
-                    player = input(str(state.turns[0] + 1) + ": ").lower()
+                    player = input(str(state.turns[0] + 1) + ". ").lower()
                     if np.any([player == x.name.lower() for x in freeagents]):
                         break
                 state.DoMove2(player)
@@ -45,7 +47,7 @@ def main():
             else:
                 move = UCT(state, iterations)[0]
                 player = next(p for p in state.freeagents if p.position == move)
-                print(str(pick) + ". " + player.name)
+                print(str(state.turns[0] + 1) + ". " + player.name)
                 state.DoMove(move)
                 pick += 1
     else:
@@ -58,7 +60,7 @@ def main():
                     state.GetPlayers(move[i])
                 print()
             while True:
-                player = input(str(state.turns[0] + 1) + ": ").lower()
+                player = input(str(state.turns[0] + 1) + ". ").lower()
                 if np.any([player == x.name.lower() for x in freeagents]):
                     break
             state.DoMove2(player)
@@ -149,12 +151,12 @@ def GetResult(self, playerjm):
     if playerjm is None: return 0
 
     pos_wgts = {
-        ("QB"): [.6, .2],
-        ("WR"): [.7, .7, .7, .4, .4, .2],
-        ("RB"): [.7, .7, .4, .2],
+        ("QB"): [.5, .2],
+        ("WR"): [.7, .7, .7, .5, .3, .3, .1],
+        ("RB"): [.7, .7, .5, .3, .1],
         ("TE"): [.7, .2],
-        ("RB", "WR", "TE"): [.7],
-        ("D"): [.3],
+        ("RB", "WR", "TE"): [.6],
+        ("D"): [.3, .1],
         ("K"): [.1]
     }
 
