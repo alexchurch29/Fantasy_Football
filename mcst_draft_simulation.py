@@ -152,11 +152,11 @@ def GetResult(self, playerjm):
 
     pos_wgts = {
         ("QB"): [.5, .2],
-        ("WR"): [.7, .7, .7, .5, .3, .3, .1],
-        ("RB"): [.7, .7, .5, .3, .1],
+        ("WR"): [.7, .7, .7, .5, .3, .3],
+        ("RB"): [.7, .7, .5, .3],
         ("TE"): [.7, .2],
         ("RB", "WR", "TE"): [.6],
-        ("D"): [.3, .1],
+        ("D"): [.3],
         ("K"): [.1]
     }
 
@@ -185,7 +185,7 @@ DraftState.GetResult = GetResult
 def GetMoves(self):
     """ Get all possible moves from this state.
     """
-    pos_max = {"QB": 2, "WR": 7, "RB": 5, "TE": 2, "D": 2, "K": 1}
+    pos_max = {"QB": 2, "WR": 7, "RB": 5, "TE": 2, "D": 1, "K": 1}
 
     if len(self.turns) == 0: return []
 
