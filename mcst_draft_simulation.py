@@ -116,9 +116,17 @@ class QB(NflPlayer):
             self.pass_tds = int(pass_tds)
         except:
             self.pass_tds = np.NAN
+        try:
+            self.rush_yds = int(rush_yds)
+        except:
+            self.rush_yds = np.NAN
+        try:
+            self.rush_tds = int(rush_tds)
+        except:
+            self.rush_tds = np.NAN
 
     def __repr__(self):
-        return " | ".join([self.name, self.position, self.team, str(self.bye)]).ljust(40, ' ') + ((str(self.pass_yds) + " pass_yds").rjust(17, ' ') + (str(self.pass_tds) + " pass_tds").rjust(15, ' ') + (str(self.points) + " points").rjust(14,' ')).rjust(86, ' ')
+        return " | ".join([self.name, self.position, self.team, str(self.bye)]).ljust(40, ' ') + ((str(self.pass_yds) + " pass_yds").rjust(17, ' ') + (str(self.pass_tds) + " pass_tds").rjust(15, ' ') + (str(self.rush_yds) + " rush yds").rjust(17, ' ') + (str(self.rush_tds) + " rush_tds").rjust(14, ' ') + (str(self.points) + " points").rjust(14,' ')).rjust(86, ' ')
 
 
 class RB(WR):
@@ -152,8 +160,8 @@ def GetResult(self, playerjm):
 
     pos_wgts = {
         ("QB"): [.5, .2],
-        ("WR"): [.7, .7, .7, .5, .3, .3],
-        ("RB"): [.7, .7, .5, .3],
+        ("WR"): [.8, .8, .8, .5, .3, .3],
+        ("RB"): [.8, .8, .5, .3],
         ("TE"): [.7, .2],
         ("RB", "WR", "TE"): [.6],
         ("D"): [.3],
@@ -344,7 +352,7 @@ def UCT(rootstate, itermax, verbose=False):
         try:
             return positions[-1].move, positions[-2].move# return the move that was most visited
         except:
-            return positions[-1].move# return the move that was most visited
+            return [positions[-1].move]# return the move that was most visited
 
 
 if __name__ == '__main__':
